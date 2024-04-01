@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/motionLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/motion_scene">
+
+    <!-- Paparan Pertama -->
+    <FrameLayout
+        android:id="@+id/screen1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
+
+        <!-- Konten Paparan Pertama -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to Onboarding!"
+            android:textSize="24sp"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <!-- Paparan Kedua -->
+    <FrameLayout
+        android:id="@+id/screen2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent">
+
+        <!-- Konten Paparan Kedua -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Learn more about our app"
+            android:textSize="24sp"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <!-- Paparan Ketiga -->
+    <FrameLayout
+        android:id="@+id/screen3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
+
+        <!-- Konten Paparan Ketiga -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start exploring now!"
+            android:textSize="24sp"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>

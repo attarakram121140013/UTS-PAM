@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.Theme.UTSPAM" parent="Theme.AppCompat.Light.DarkActionBar">
+    </style>
+    <style name="Theme.UTSPAM" parent="Base.Theme.UTSPAM">
+    </style>
+</resources>

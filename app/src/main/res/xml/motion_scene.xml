@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <!-- Transisi antara Paparan Pertama dan Paparan Kedua -->
+    <Transition
+        motion:constraintSetEnd="@id/screen2"
+        motion:constraintSetStart="@id/screen1"
+        motion:duration="1000">
+        <OnClick
+            motion:targetId="@id/screen1"
+            motion:clickAction="transitionToStart" />
+    </Transition>
+
+    <!-- Transisi antara Paparan Kedua dan Paparan Ketiga -->
+    <Transition
+        motion:constraintSetEnd="@id/screen3"
+        motion:constraintSetStart="@id/screen2"
+        motion:duration="1000">
+        <OnClick
+            motion:targetId="@id/screen2"
+            motion:clickAction="transitionToStart" />
+    </Transition>
+</MotionScene>

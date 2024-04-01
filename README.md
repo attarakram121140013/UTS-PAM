@@ -1,4 +1,4 @@
 # UTS-PAM
-UTS Pengembangan Aplikasi Mobile \n
-Nama: Attar Akram Abdillah \n
+UTS Pengembangan Aplikasi Mobile
+Nama: Attar Akram Abdillah
 NIM: 121140013

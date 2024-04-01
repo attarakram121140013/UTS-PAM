@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Home Fragment Menu Item -->
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home" />
+
+    <!-- Profile Fragment Menu Item -->
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Profile" />
+
+</menu>

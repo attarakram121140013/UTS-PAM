@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Looper
 import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.FirebaseApp
 
 class SplashActivity : AppCompatActivity() {
 
@@ -22,7 +21,7 @@ class SplashActivity : AppCompatActivity() {
 
             if (isLoggedIn) {
                 // Pengguna sudah masuk sebelumnya, arahkan ke halaman Beranda
-                startActivity(Intent(this, HomeActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
             } else {
                 // Pengguna belum masuk sebelumnya, arahkan ke halaman Onboarding Motion Layout
                 startActivity(Intent(this, OnboardingActivity::class.java))

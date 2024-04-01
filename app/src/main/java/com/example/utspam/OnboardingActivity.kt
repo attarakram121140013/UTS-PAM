@@ -23,7 +23,7 @@ class OnboardingActivity : AppCompatActivity() {
                 startActivity(Intent(this, LoginActivity::class.java))
             } else {
                 // Pengguna sudah masuk sebelumnya, arahkan ke halaman Beranda
-                startActivity(Intent(this, HomeActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
             }
 
             // Tutup halaman Onboarding setelah navigasi

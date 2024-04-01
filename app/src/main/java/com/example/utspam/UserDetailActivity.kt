@@ -54,7 +54,7 @@ class UserDetailActivity : AppCompatActivity() {
 
     private fun displayUserDetails(users: List<User>) {
         for (user in users) {
-            binding.textViewName.append("Name: ${user.first_name} ${user.last_name}\n")
+            binding.textViewName.append("Name: ${user.username}\n")
             binding.textViewEmail.append("Email: ${user.email}\n")
         }
     }

@@ -1,9 +1,11 @@
 package com.example.utspam
 
 data class User(
-    val id: Int,
-    val email: String,
-    val first_name: String,
-    val last_name: String,
-    val avatar: String
-)
+    var username: String = "",
+    var password: String = "",
+    var email: String = "",
+    var nik: String = "",
+    var githubUsername: String = ""
+) {
+    constructor() : this("", "", "", "", "")
+}

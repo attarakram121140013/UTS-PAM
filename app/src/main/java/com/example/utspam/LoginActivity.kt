@@ -5,30 +5,30 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
 import com.example.utspam.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(this)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // Initialize Firebase Auth
-        auth = Firebase.auth
+        // Initialize Firebase Auth and Firestore
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         // Set onClickListener for login button
         binding.loginButton.setOnClickListener {
-            val email = binding.emailEditText.text.toString()
+            val username = binding.usernameEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
-            signIn(email, password)
+            signIn(username, password)
         }
 
         // Set onClickListener for registration button
@@ -37,24 +37,35 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun signIn(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
+    private fun signIn(username: String, password: String) {
+        // Check if username and password match in Firestore
+        firestore.collection("users")
+            .whereEqualTo("username", username)
+            .whereEqualTo("password", password)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    // Sign in success
                     val user = auth.currentUser
-                    // Save login status to DataStore Preference
+                    // Save login status to SharedPreferences
                     saveLoginStatus(true)
-                    // Redirect to Dashboard or HomeActivity
-                    startActivity(Intent(this, HomeActivity::class.java))
+                    // Redirect to MainActivity
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else {
-                    // If sign in fails, display a message to the user.
+                    // Username or password is incorrect
                     Toast.makeText(
-                        baseContext, "Authentication failed.",
+                        baseContext, "Invalid username or password.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+            }
+            .addOnFailureListener { exception ->
+                // Handle errors
+                Toast.makeText(
+                    baseContext, "Authentication failed: ${exception.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 

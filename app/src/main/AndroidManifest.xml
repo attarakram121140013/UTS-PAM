@@ -26,19 +26,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OnboardingActivity">
+            android:name=".OnboardingActivity"
+            android:theme="@style/Theme.UTSPAM">
         </activity>
         <activity
-            android:name=".LoginActivity">
+            android:name=".LoginActivity"
+            android:theme="@style/Theme.UTSPAM">
         </activity>
         <activity
-            android:name=".RegisterActivity">
+            android:name=".RegisterActivity"
+            android:theme="@style/Theme.UTSPAM">
         </activity>
         <activity
-            android:name=".HomeActivity">
+            android:name=".MainActivity"
+            android:theme="@style/Theme.UTSPAM">
         </activity>
         <activity
-            android:name=".ProfileActivity">
+            android:name=".UserDetailActivity"
+            android:theme="@style/Theme.UTSPAM">
         </activity>
     </application>
 

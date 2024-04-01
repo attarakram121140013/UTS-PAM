@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.utspam.databinding.FragmentHomeBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : Fragment() {
 
@@ -36,6 +38,7 @@ class HomeFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         loadUsersFromFirestore()
+        loadUsersFromRetrofit()
 
         // Implement search functionality
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -64,8 +67,29 @@ class HomeFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
-                // Handle failure
+
             }
+    }
+
+    private fun loadUsersFromRetrofit() {
+        val apiService = ApiClient.apiClient
+        val call = apiService.getUsers()
+
+        call.enqueue(object : Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        userList.addAll(it.data)
+                        originalUserList.addAll(it.data)
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+
+            }
+        })
     }
 
     private fun searchUsers(query: String) {

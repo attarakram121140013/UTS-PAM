@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.hide()
 
         drawerLayout = findViewById(R.id.drawer_layout)
 

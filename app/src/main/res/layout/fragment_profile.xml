@@ -9,6 +9,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
         android:src="@drawable/ic_person_placeholder" />
 
     <TextView
@@ -16,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/imageViewProfile"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -25,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewUsername"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:textSize="16sp" />
 
@@ -33,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewGithubUsername"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:textSize="16sp" />
 
@@ -40,6 +44,7 @@
         android:id="@+id/logoutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/textViewEmail"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
         android:text="Logout" />

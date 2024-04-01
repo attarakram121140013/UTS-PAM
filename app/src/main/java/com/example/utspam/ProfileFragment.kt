@@ -8,18 +8,23 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.utspam.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
+    private var userListener: ListenerRegistration? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,32 +38,86 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
-        // Get user information from Firebase Authentication
-        val currentUser = auth.currentUser
-        currentUser?.let {
-            val username = it.displayName ?: "Unknown"
-            val email = it.email ?: "Unknown"
-            val githubUsername = "Your GitHub Username" // Replace with your GitHub username
-
-            // Display user information
-            binding.textViewUsername.text = username
-            binding.textViewEmail.text = email
-            binding.textViewGithubUsername.text = githubUsername
-            // Display the first letter of the username as a placeholder profile picture
-            val placeholderImage = createInitialsImage(username)
-            binding.imageViewProfile.setImageBitmap(placeholderImage)
-        }
-
-        // Set onClickListener for the logout button
         binding.logoutButton.setOnClickListener {
             logoutUser()
+        }
+        auth.addAuthStateListener { firebaseAuth ->
+            val currentUser = firebaseAuth.currentUser
+            if (currentUser != null) {
+                // User is signed in, load user data
+                loadUserData(currentUser)
+            } else {
+                // User is not signed in, clear UI
+                clearUserData()
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        auth.addAuthStateListener(authListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        auth.removeAuthStateListener(authListener)
+    }
+
+    private val authListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            // User is signed in, load user data
+            loadUserData(currentUser)
+        } else {
+            // User is not signed in, clear UI
+            clearUserData()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        // Remove the listener when the fragment is destroyed to avoid memory leaks
+        userListener?.remove()
+    }
+
+    private fun loadUserData(user: FirebaseUser) {
+        // Reference to the current user's document
+        val userRef = firestore.collection("users").document(user.uid)
+
+        // Retrieve user data from Firestore
+        userListener = userRef.addSnapshotListener { document, error ->
+            if (error != null) {
+                // Handle errors
+                return@addSnapshotListener
+            }
+
+            if (document != null && document.exists()) {
+                val username = document.getString("username") ?: "Unknown"
+                val email = document.getString("email") ?: "Unknown"
+                val githubUsername = document.getString("githubUsername") ?: "Unknown"
+
+                // Display user information
+                binding.textViewUsername.text = username
+                binding.textViewEmail.text = email
+                binding.textViewGithubUsername.text = githubUsername
+                // Display the first letter of the username as a placeholder profile picture
+                val placeholderImage = createInitialsImage(username)
+                binding.imageViewProfile.setImageBitmap(placeholderImage)
+            } else {
+                // Document doesn't exist
+            }
+        }
+    }
+
+    private fun clearUserData() {
+        // Clear UI when user is not signed in
+        binding.textViewUsername.text = ""
+        binding.textViewEmail.text = ""
+        binding.textViewGithubUsername.text = ""
+        binding.imageViewProfile.setImageResource(R.drawable.ic_person_placeholder)
     }
 
     private fun logoutUser() {
